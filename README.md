@@ -1,5 +1,20 @@
 # gampls
 
+## Dependencies
+
+The `plsgam` package depends on a suite of (fantastic) packages -- you can install them using":
+
+```
+install.packages(
+ c(
+  "inlabru",
+  "gratia",
+  "mgcv",
+  "pls"
+ )
+)
+```
+
 ## Installation
 
 Note that `gampls` is not (yet) on CRAN.
