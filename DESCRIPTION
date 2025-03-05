@@ -1,7 +1,7 @@
 Package: gampls
 Type: Package
 Title: GAM-PLS
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: person("Pierre", "Roudier", email = "roudierp@landcaresearch.co.nz",
   role = c("aut", "cre"))
 Description: Implementation of GAM-PLS models based on MGCV. 
@@ -20,7 +20,8 @@ Imports:
     pls
 RoxygenNote: 7.2.3
 Collate: 
-    'formula.R'
     'lvs.R'
+    'formula.R'
+    'caret.R'
     'gampls.R'
     'predict.R'
