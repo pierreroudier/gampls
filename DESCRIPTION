@@ -1,7 +1,7 @@
 Package: gampls
 Type: Package
 Title: GAM-PLS
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: person("Pierre", "Roudier", email = "roudierp@landcaresearch.co.nz",
   role = c("aut", "cre"))
 Description: Implementation of GAM-PLS models based on MGCV. 

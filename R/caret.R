@@ -171,7 +171,7 @@ gamplsInfo <- list(
     return(out)
   },
 
-  predict = function (modelFit, newdata, submodels = NULL) {
+  predict = function (modelFit, newdata, submodels = NULL, ...) {
 
     #
     # EXTRACT MODELS
@@ -194,9 +194,9 @@ gamplsInfo <- list(
     names(lvs) <- sub(" ", ".", names(lvs))
 
     if ("bam" %in% class(fit_gam)) {
-      out <- predict.bam(fit_gam, lvs, type = "response")
+      out <- predict.bam(fit_gam, lvs, type = "response", ...)
     } else {
-      out <- predict.gam(fit_gam, lvs, type = "response")
+      out <- predict.gam(fit_gam, lvs, type = "response", ...)
     }
 
     return(out)
