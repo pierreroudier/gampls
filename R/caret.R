@@ -123,7 +123,7 @@ gamplsInfo <- list(
       lvs
     )
 
-   #
+    #
     # TRAIN GAM
     #
 
@@ -151,7 +151,18 @@ gamplsInfo <- list(
 
     modelArgs <- c(modelArgs, theDots)
 
-    fit_gam <- do.call(mgcv::gam, modelArgs)
+    if ("large" %in% names(theDots)) {
+      large <- theDots$large
+      modelArgs$large <- NULL
+    } else {
+      large <- FALSE
+    }
+
+    if (large) {
+      fit_gam <- do.call(mgcv::bam, modelArgs)
+    } else {
+      fit_gam <- do.call(mgcv::gam, modelArgs)
+    }
 
     # class(out) <- c("gampls", class(res))
 
@@ -182,9 +193,13 @@ gamplsInfo <- list(
     lvs <- as.data.frame(lvs)
     names(lvs) <- sub(" ", ".", names(lvs))
 
-    out <- predict.gam(fit_gam, lvs, type = "response")
+    if ("bam" %in% class(fit_gam)) {
+      out <- predict.bam(fit_gam, lvs, type = "response")
+    } else {
+      out <- predict.gam(fit_gam, lvs, type = "response")
+    }
 
-    out
+    return(out)
   },
 
   prob = NULL,

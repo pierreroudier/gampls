@@ -4,10 +4,13 @@
 \alias{gampls}
 \title{GAM-PLS model using MGCV}
 \usage{
-gampls(fit, ...)
+gampls(fit, large = FALSE, ...)
 }
 \arguments{
 \item{fit}{.}
+
+\item{large}{Boolean, default to FALSE. If `large` is TRUE then `mgcv::bam` rather
+than `mgcv::gam` is used.}
 
 \item{...}{.}
 }

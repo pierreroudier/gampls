@@ -104,13 +104,21 @@ summarise_preds <- function(
 predict.gampls <- function(object, newdata, type = "response", ...) {
 
   # newdata needs to be LVs in this instance!
-
-  res <- predict.gam(
-    object,
-    newdata,
-    type = type,
-    ...
-  )
+  if ("bam" %in% class(object)) {
+    res <- predict.bam(
+      object,
+      newdata,
+      type = type,
+      ...
+    )
+  } else {
+    res <- predict.gam(
+      object,
+      newdata,
+      type = type,
+      ...
+    )
+  }
 
   return(res)
 }

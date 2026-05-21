@@ -18,8 +18,21 @@ predict_pls <- utils::getFromNamespace("predict.mvr", "pls")
 #' @noRd
 #'
 get_lvs <- function(fit, data) {
+
+  if (class(fit) != "train") stop("fit needs to be a train object.", call. = FALSE)
+
+  model_type <- fit$modelInfo$label
+
+  if (model_type == "Partial Least Squares") {
+    fit_pls <- fit$finalModel
+  } else if (model_type == "GAM-PLS") {
+    fit_pls <- fit$finalModel$pls
+  } else {
+    stop("No GAM-PLS implementation for this type of model", call. = FALSE)
+  }
+
   lvs <- predict_pls(
-    fit$finalModel,
+    fit_pls,
     newdata = data,
     type = "scores"
   )

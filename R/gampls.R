@@ -3,6 +3,8 @@
 #' @title GAM-PLS model using MGCV
 #'
 #' @param fit .
+#' @param large Boolean, default to FALSE. If `large` is TRUE then `mgcv::bam` rather
+#'   than `mgcv::gam` is used.
 #' @param ... .
 #'
 #' @returns .
@@ -10,12 +12,13 @@
 #' @author Pierre Roudier
 #'
 #' @importFrom methods is
-#' @importFrom mgcv gam
+#' @importFrom mgcv gam bam
 #' @include lvs.R formula.R
 #' @export
 #'
 gampls <- function(
     fit,
+    large = FALSE,
     ...
 ) {
 
@@ -46,11 +49,19 @@ gampls <- function(
   )
 
   # Train GAM
-  res <- gam(
-    fm,
-    data = df_lvs,
-    ...
-  )
+  if (large) {
+    res <- bam(
+      fm,
+      data = df_lvs,
+      ...
+    )
+  } else {
+    res <- gam(
+      fm,
+      data = df_lvs,
+      ...
+    )
+  }
 
   class(res) <- c("gampls", class(res))
 
