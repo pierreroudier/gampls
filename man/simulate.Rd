@@ -13,7 +13,7 @@ simulate(fit, n, data, ...)
 
 \item{data}{data.frame; observations for which the posterior draws from the models should be evaluated.}
 
-\item{...}{Fyurther arguments passed to \code{gratia::simulate.gam}}
+\item{...}{Further arguments passed to \code{gratia::simulate.gam}}
 }
 \value{
 A matrix with \code{nsim} columns.
