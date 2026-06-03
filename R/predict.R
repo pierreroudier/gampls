@@ -12,7 +12,7 @@ simulate_gam <- utils::getFromNamespace("simulate.gam", "gratia")
 #' @param fit A GAM fitted on the latent variables of a PLS
 #' @param n numeric; the number of posterior simulations to return
 #' @param data data.frame; observations for which the posterior draws from the models should be evaluated.
-#' @param ... Fyurther arguments passed to \code{gratia::simulate.gam}
+#' @param ... Further arguments passed to \code{gratia::simulate.gam}
 #'
 #' @return A matrix with \code{nsim} columns.
 #'
@@ -32,12 +32,23 @@ simulate <- function(
   # data needs to be LVs in this instance!
   # data <- get_lvs(fit, data)
 
-  sim <- simulate_gam(
-    fit,
-    nsim = n,
-    data = data,
-    ...
-  )
+  if ("gam" %in% class(fit)) {
+    sim <- simulate_gam(
+      fit,
+      nsim = n,
+      data = data,
+      ...
+    )
+  } else if ("gampls" %in% class(fit)) {
+    sim <- simulate_gam(
+      fit$finalModel$gam,
+      nsim = n,
+      data = data,
+      ...
+    )
+  } else {
+    stop("class of object fit not supported.", call. = FALSE)
+  }
 
   return(sim)
 }
@@ -97,7 +108,7 @@ summarise_preds <- function(
 #'
 #' @include formula.R
 #' @importFrom stats predict
-#' @importFrom mgcv predict.gam
+#' @importFrom mgcv predict.gam predict.bam
 #' @export predict.gampls
 #' @export
 #'
