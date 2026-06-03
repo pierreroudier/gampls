@@ -28,7 +28,7 @@ make_formula <- function(
 }
 
 # Custom caret function to be able to pass somoothers to caret::train
-.mySmootherFormula <- function (data, smoother = "s", cut = 10, df = 0, span = 0.5, degree = 1, y = ".outcome") {
+.mySmootherFormula <- function (data, smoother = "s", cut = 10, df = 0, k = -1, span = 0.5, degree = 1, y = ".outcome") {
 
   # nzv <- caret::nearZeroVar(data)
   # if (length(nzv) > 0) data <- data[, -nzv, drop = FALSE]
@@ -43,19 +43,37 @@ make_formula <- function(
   prefix[which(numValues)] <- paste(smoother, "(", sep = "")
 
   if (smoother == "s") {
-    suffix[which(numValues)] <- if (df == 0)
+
+    if (df != 0) {
+      suffix[which(numValues)] <- paste0(
+        suffix[which(numValues)],
+        paste0(",df=", df)
+      )
+
+    }
+    if (k != -1) {
+      suffix[which(numValues)] <- paste0(
+        suffix[which(numValues)],
+        paste0(",k=", k)
+      )
+    }
+
+    suffix[which(numValues)] <- paste0(
+      suffix[which(numValues)],
       ")"
-    else paste(", df=", df, ")", sep = "")
+    )
+
   }
   if (smoother == "lo") {
-    suffix[which(numValues)] <- paste(", span=", span, ",degree=",
-                                      degree, ")", sep = "")
+    suffix[which(numValues)] <- paste(", span=", span, ",degree=", degree, ")", sep = "")
   }
   if (smoother == "rcs") {
     suffix[which(numValues)] <- ")"
   }
+
   rhs <- paste(prefix, names(numValues), suffix, sep = "")
   rhs <- paste(rhs, collapse = "+")
   form <- as.formula(paste(y, rhs, sep = "~"))
+
   form
 }
