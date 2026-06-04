@@ -40,7 +40,10 @@ make_formula <- function(
   suffix <- rep("", ncol(data))
 
   # prefix[numValues > cut] <- paste(smoother, "(", sep = "")
-  prefix[which(numValues)] <- paste(smoother, "(", sep = "")
+  # If any smoother is used
+  if (smoother != "") {
+    prefix[which(numValues)] <- paste(smoother, "(", sep = "")
+  }
 
   if (smoother == "s") {
 

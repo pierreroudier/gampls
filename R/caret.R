@@ -78,7 +78,7 @@ gamplsInfo <- list(
     return(out)
   },
 
-  fit = function (x, y, wts, param, lev, last, classProbs, ...) {
+  fit = function (x, y, wts, param, lev, last, classProbs, smootherParams = list(smoother = "s", cut = 10, df = 0, k = -1, span = 0.5, degree = 1), ...) {
 
     #
     # PLS part
@@ -130,7 +130,16 @@ gamplsInfo <- list(
     require(mgcv)
 
     # Assemble GAM formula
-    modForm <-.mySmootherFormula(dat_lvs[, -1])
+    # modForm <-.mySmootherFormula(dat_lvs[, -1])
+    modForm <- do.call(
+      .mySmootherFormula,
+      c(
+        list(
+          data = dat_lvs[, -1]
+        ),
+        smootherParams
+      )
+    )
 
     # Set default family
     default_distr <- gaussian()
